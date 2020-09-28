@@ -1,6 +1,6 @@
 # Fiddler Samples
 
-These package contains tutorials, samples and documentation for using Fiddler.
+This package contains tutorials, samples and documentation for using Fiddler.
 
 1. Clone this repo to your local machine:
    git clone https://github.com/fiddler-labs/Fiddler-Tutorials.git
