@@ -1,0 +1,41 @@
+model:
+    name: UCI Wine Quality Regression Model (Neural Network)
+    description: This model predicts a wine's rating from its chemistry
+    input-type: structured
+    model-task: regression
+    inputs:
+        - column-name: fixed acidity
+          data-type: float
+        - column-name: volatile acidity
+          data-type: float
+        - column-name: citric acid
+          data-type: float
+        - column-name: residual sugar
+          data-type: float
+        - column-name: chlorides
+          data-type: float
+        - column-name: free sulfur dioxide
+          data-type: float
+        - column-name: total sulfur dioxide
+          data-type: float
+        - column-name: density
+          data-type: float
+        - column-name: pH
+          data-type: float
+        - column-name: sulphates
+          data-type: float
+        - column-name: alcohol
+          data-type: float
+    outputs:
+        - column-name: predicted_quality
+          data-type: float
+    targets:
+        - column-name: quality
+          data-type: int
+    framework: TensorFlow
+    version: 1.20
+    hyperparameters:
+        hidden_units: [30, 5]
+        optimizer: Adam
+    datasets:
+        - winequality

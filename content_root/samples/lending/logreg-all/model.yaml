@@ -1,0 +1,95 @@
+model:
+    name: All-variable Logistic Regression Loan Status Predictor
+    description: Predict whether a loan is "Fully Paid" or "Charged Off"
+    input-type: structured
+    model-task: binary_classification
+    class-labels:
+        - Fully Paid
+        - Charged Off
+    inputs:
+        - {column-name: loan_amnt, data-type: float}
+        - {column-name: int_rate, data-type: float}
+        - column-name: sub_grade
+          data-type: category
+          possible-values: [A3, F4, B5, B2, D5, B4, E2, G3, A2, G1, D3, B3, B1, D4,
+                            D1, A1, A5, A4, F3, E4, G5, F2, C5, C2, E5, C1, E1, C3, F1, F5, D2, C4,
+                            G4, E3, G2]
+        - column-name: emp_length
+          data-type: category
+          possible-values: [< 1 year, 1 year, 2 years, 9 years, 10+ years, 4 years,
+                            7 years, 5 years, 6 years, 3 years, 8 years]
+        - column-name: home_ownership
+          data-type: category
+          possible-values: [OTHER, OWN, NONE, RENT, MORTGAGE, ANY]
+        - {column-name: annual_inc, data-type: float}
+        - column-name: purpose
+          data-type: category
+          possible-values: [debt_consolidation, moving, other, home_improvement, renewable_energy,
+                            house, credit_card, small_business, major_purchase, vacation, wedding,
+                            medical, car]
+        - column-name: addr_state
+          data-type: category
+          possible-values: [OH, IN, KY, SD, NM, FL, VT, OK, NH, MS, PA, NY, MI, UT,
+                            AR, MD, IL, NV, IA, TX, RI, CO, CA, SC, MN, WA, WV, AK, GA, ID, DC, NC,
+                            HI, WY, CT, WI, DE, TN, MO, AZ, AL, VA, LA, MA, NE, OR, MT, ME, KS, NJ]
+        - {column-name: dti, data-type: float}
+        - {column-name: delinq_2yrs, data-type: float}
+        - {column-name: fico_range_low, data-type: float}
+        - {column-name: inq_last_6mths, data-type: float}
+        - {column-name: mths_since_last_delinq, data-type: float}
+        - {column-name: mths_since_last_record, data-type: float}
+        - {column-name: open_acc, data-type: float}
+        - {column-name: pub_rec, data-type: float}
+        - {column-name: revol_bal, data-type: float}
+        - {column-name: revol_util, data-type: float}
+        - {column-name: total_acc, data-type: float}
+        - {column-name: collections_12_mths_ex_med, data-type: float}
+        - {column-name: mths_since_last_major_derog, data-type: float}
+        - {column-name: acc_now_delinq, data-type: float}
+        - {column-name: tot_coll_amt, data-type: float}
+        - {column-name: tot_cur_bal, data-type: float}
+        - {column-name: total_rev_hi_lim, data-type: float}
+        - {column-name: acc_open_past_24mths, data-type: float}
+        - {column-name: avg_cur_bal, data-type: float}
+        - {column-name: bc_open_to_buy, data-type: float}
+        - {column-name: bc_util, data-type: float}
+        - {column-name: chargeoff_within_12_mths, data-type: float}
+        - {column-name: delinq_amnt, data-type: float}
+        - {column-name: mo_sin_old_rev_tl_op, data-type: float}
+        - {column-name: mo_sin_rcnt_rev_tl_op, data-type: float}
+        - {column-name: mo_sin_rcnt_tl, data-type: float}
+        - {column-name: mort_acc, data-type: float}
+        - {column-name: mths_since_recent_bc, data-type: float}
+        - {column-name: mths_since_recent_inq, data-type: float}
+        - {column-name: mths_since_recent_revol_delinq, data-type: float}
+        - {column-name: num_accts_ever_120_pd, data-type: float}
+        - {column-name: num_actv_bc_tl, data-type: float}
+        - {column-name: num_actv_rev_tl, data-type: float}
+        - {column-name: num_bc_sats, data-type: float}
+        - {column-name: num_bc_tl, data-type: float}
+        - {column-name: num_il_tl, data-type: float}
+        - {column-name: num_op_rev_tl, data-type: float}
+        - {column-name: num_rev_accts, data-type: float}
+        - {column-name: num_rev_tl_bal_gt_0, data-type: float}
+        - {column-name: num_sats, data-type: float}
+        - {column-name: num_tl_120dpd_2m, data-type: float}
+        - {column-name: num_tl_30dpd, data-type: float}
+        - {column-name: num_tl_90g_dpd_24m, data-type: float}
+        - {column-name: num_tl_op_past_12m, data-type: float}
+        - {column-name: pct_tl_nvr_dlq, data-type: float}
+        - {column-name: pub_rec_bankruptcies, data-type: float}
+        - {column-name: tax_liens, data-type: float}
+        - {column-name: tot_hi_cred_lim, data-type: float}
+        - {column-name: total_bal_ex_mort, data-type: float}
+        - {column-name: total_bc_limit, data-type: float}
+        - {column-name: total_il_high_credit_limit, data-type: float}
+    outputs:
+        - column-name: probability_charged_off
+          data-type: float
+    targets:
+        - column-name: loan_status
+          data-type: category
+          possible-values: [Fully Paid, Charged Off]
+    algorithm: Logistic regression
+    datasets:
+        - p2p_loans

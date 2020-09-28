@@ -1,0 +1,91 @@
+dataset:
+    name: p2p_loans
+    files: [test.csv]
+    columns:
+    - {column-name: id, data-type: int}
+    - {column-name: loan_amnt, data-type: float}
+    - {column-name: int_rate, data-type: float}
+    -   column-name: sub_grade
+        data-type: category
+        possible-values: [G4, E3, F2, B1, D4, F1, B5, D2, C2, A3, F3, A4, E2, G3,
+            E5, F4, C5, A1, A5, G2, B3, D3, D5, F5, G1, C4, B2, B4, A2, C3, C1, G5,
+            E4, D1, E1]
+    -   column-name: emp_length
+        data-type: category
+        possible-values: [3 years, 9 years, 4 years, 2 years, < 1 year, 7 years, 10+
+                years, 1 year, 6 years, 8 years, 5 years]
+    -   column-name: home_ownership
+        data-type: category
+        possible-values: [MORTGAGE, OWN, ANY, RENT, OTHER, NONE]
+    - {column-name: annual_inc, data-type: float}
+    - {column-name: issue_d, data-type: str}
+    -   column-name: loan_status
+        data-type: category
+        possible-values: [Fully Paid, Charged Off]
+    -   column-name: purpose
+        data-type: category
+        possible-values: [renewable_energy, major_purchase, car, vacation, other,
+            house, home_improvement, debt_consolidation, wedding, small_business,
+            credit_card, moving, medical]
+    -   column-name: addr_state
+        data-type: category
+        possible-values: [ID, MO, TX, OR, OH, MI, CA, GA, CO, AL, OK, IA, AR, ME,
+            WI, CT, IN, NM, KY, HI, RI, SC, FL, NE, MT, SD, NC, AK, WV, NY, VA, MD,
+            DC, KS, VT, PA, MS, UT, IL, DE, NH, WA, AZ, MN, WY, TN, MA, NV, LA, NJ]
+    - {column-name: dti, data-type: float}
+    - {column-name: delinq_2yrs, data-type: float}
+    - {column-name: fico_range_low, data-type: float}
+    - {column-name: fico_range_high, data-type: float}
+    - {column-name: inq_last_6mths, data-type: float}
+    - {column-name: mths_since_last_delinq, data-type: float}
+    - {column-name: mths_since_last_record, data-type: float}
+    - {column-name: open_acc, data-type: float}
+    - {column-name: pub_rec, data-type: float}
+    - {column-name: revol_bal, data-type: float}
+    - {column-name: revol_util, data-type: float}
+    - {column-name: total_acc, data-type: float}
+    - {column-name: total_pymnt, data-type: float}
+    - {column-name: total_rec_prncp, data-type: float}
+    - {column-name: total_rec_int, data-type: float}
+    - {column-name: total_rec_late_fee, data-type: float}
+    - {column-name: collections_12_mths_ex_med, data-type: float}
+    - {column-name: mths_since_last_major_derog, data-type: float}
+    - {column-name: acc_now_delinq, data-type: float}
+    - {column-name: tot_coll_amt, data-type: float}
+    - {column-name: tot_cur_bal, data-type: float}
+    - {column-name: total_rev_hi_lim, data-type: float}
+    - {column-name: acc_open_past_24mths, data-type: float}
+    - {column-name: avg_cur_bal, data-type: float}
+    - {column-name: bc_open_to_buy, data-type: float}
+    - {column-name: bc_util, data-type: float}
+    - {column-name: chargeoff_within_12_mths, data-type: float}
+    - {column-name: delinq_amnt, data-type: float}
+    - {column-name: mo_sin_old_rev_tl_op, data-type: float}
+    - {column-name: mo_sin_rcnt_rev_tl_op, data-type: float}
+    - {column-name: mo_sin_rcnt_tl, data-type: float}
+    - {column-name: mort_acc, data-type: float}
+    - {column-name: mths_since_recent_bc, data-type: float}
+    - {column-name: mths_since_recent_inq, data-type: float}
+    - {column-name: mths_since_recent_revol_delinq, data-type: float}
+    - {column-name: num_accts_ever_120_pd, data-type: float}
+    - {column-name: num_actv_bc_tl, data-type: float}
+    - {column-name: num_actv_rev_tl, data-type: float}
+    - {column-name: num_bc_sats, data-type: float}
+    - {column-name: num_bc_tl, data-type: float}
+    - {column-name: num_il_tl, data-type: float}
+    - {column-name: num_op_rev_tl, data-type: float}
+    - {column-name: num_rev_accts, data-type: float}
+    - {column-name: num_rev_tl_bal_gt_0, data-type: float}
+    - {column-name: num_sats, data-type: float}
+    - {column-name: num_tl_120dpd_2m, data-type: float}
+    - {column-name: num_tl_30dpd, data-type: float}
+    - {column-name: num_tl_90g_dpd_24m, data-type: float}
+    - {column-name: num_tl_op_past_12m, data-type: float}
+    - {column-name: pct_tl_nvr_dlq, data-type: float}
+    - {column-name: pub_rec_bankruptcies, data-type: float}
+    - {column-name: tax_liens, data-type: float}
+    - {column-name: tot_hi_cred_lim, data-type: float}
+    - {column-name: total_bal_ex_mort, data-type: float}
+    - {column-name: total_bc_limit, data-type: float}
+    - {column-name: total_il_high_credit_limit, data-type: float}
+    - {column-name: zip_code_prefix, data-type: int}

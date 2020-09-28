@@ -1,0 +1,33 @@
+model:
+    name: Selected-variable Logistic Regression Loan Status Predictor
+    description: Predict whether a loan is "Fully Paid" or "Charged Off"
+    input-type: structured
+    model-task: binary_classification
+    class-labels:
+        - Fully Paid
+        - Charged Off
+    inputs:
+        - column-name: loan_amnt
+          data-type: float
+        - column-name: int_rate
+          data-type: float
+        - column-name: annual_inc
+          data-type: float
+        - column-name: dti
+          data-type: float
+        - column-name: fico_range_low
+          data-type: float
+        - column-name: total_acc
+          data-type: float
+        - column-name: acc_open_past_24mths
+          data-type: float
+    outputs:
+        - column-name: probability_charged_off
+          data-type: float
+    targets:
+        - column-name: loan_status
+          data-type: category
+          possible-values: [Fully Paid, Charged Off]
+    algorithm: Logistic regression
+    datasets:
+        - p2p_loans

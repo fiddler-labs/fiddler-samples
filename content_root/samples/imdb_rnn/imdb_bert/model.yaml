@@ -1,0 +1,22 @@
+model:
+    name: BERT
+    description: This is a finetuned BERT model saved as a TF SavedModel.
+    input-type: text
+    model-task: binary_classification
+    class-labels:
+        - negative
+        - positive
+    inputs:
+        - column-name: sentence
+          data-type: str
+    outputs:
+        - column-name: sentiment
+          data-type: float
+    targets:
+        - column-name: polarity
+          data-type: bool
+    framework: tensorflow
+    version: 1
+    algorithm: BERT
+    datasets:
+      - imdb_rnn

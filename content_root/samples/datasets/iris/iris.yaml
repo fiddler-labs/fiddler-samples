@@ -1,0 +1,10 @@
+dataset:
+    name: Iris Species Classification
+    files: [train.csv, test.csv]
+    columns:
+    - {column-name: row_id, data-type: int}
+    - {column-name: sepal length (cm), data-type: float}
+    - {column-name: sepal width (cm), data-type: float}
+    - {column-name: petal length (cm), data-type: float}
+    - {column-name: petal width (cm), data-type: float}
+    - {column-name: species, data-type: int}

@@ -1,0 +1,30 @@
+model:
+    name: Iris Species Classification
+    description: This model predicts which species an iris is based upon its physical properties
+    input-type: structured
+    model-task: multiclass_classification
+    inputs:
+      - {column-name: sepal length (cm), data-type: float}
+      - {column-name: sepal width (cm), data-type: float}
+      - {column-name: petal length (cm), data-type: float}
+      - {column-name: petal width (cm), data-type: float}
+    outputs:
+      - {column-name: setosa_likelihood, data-type: float}
+      - {column-name: versicolor_likelihood, data-type: float}
+      - {column-name: virginica_likelihood, data-type: float}
+    targets:
+      - column-name: species
+        data-type: category
+        possible-values: [0, 1, 2]
+    framework: scikit-learn 0.20.2
+    version: 1.23
+    training_id: UTC-2019-02-06
+    algorithm: L2-Regularized Multinomial Logistic Regression
+    datasets:
+      - iris
+    hyperparameters:
+        standardization: "false"
+    annotations:
+        - Annotation 1
+        - Annotation 2
+        - Annotation 3

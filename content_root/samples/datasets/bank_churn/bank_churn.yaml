@@ -1,0 +1,25 @@
+dataset:
+    name: bank_churn
+    files: [dataset.csv]
+    columns:
+    - {column-name: CreditScore, data-type: int}
+    -   column-name: Geography
+        data-type: category
+        possible-values: [France, Germany, Spain]
+    -   column-name: Gender
+        data-type: category
+        possible-values: [Female, Male]
+    - {column-name: Age, data-type: int}
+    - {column-name: Tenure, data-type: int}
+    - {column-name: Balance, data-type: float}
+    - {column-name: NumOfProducts, data-type: int}
+    -   column-name: HasCrCard
+        data-type: category
+        possible-values: ['Yes', 'No']
+    -   column-name: IsActiveMember
+        data-type: category
+        possible-values: ['Yes', 'No']
+    - {column-name: EstimatedSalary, data-type: float}
+    -   column-name: Churned
+        data-type: category
+        possible-values: [Churned, Not Churned]
