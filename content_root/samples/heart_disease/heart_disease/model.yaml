@@ -1,0 +1,19 @@
+model:
+    name: ' model'
+    input-type: structured
+    model-task: binary_classification
+    inputs:
+    - {column-name: age, data-type: int}
+    - {column-name: sex, data-type: int}
+    - {column-name: trestbps, data-type: int}
+    - {column-name: chol, data-type: int}
+    - {column-name: fbs, data-type: int}
+    - {column-name: thalach, data-type: int}
+    - {column-name: exang, data-type: int}
+    - {column-name: oldpeak, data-type: float}
+    - {column-name: slope, data-type: int}
+    outputs:
+    - {column-name: predicted_target, data-type: float}
+    targets:
+    - {column-name: target, data-type: int}
+    datasets: [heart_disease]

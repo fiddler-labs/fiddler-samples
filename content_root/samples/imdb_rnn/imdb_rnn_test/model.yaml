@@ -1,0 +1,22 @@
+model:
+    name: BiLSTM SavedModel
+    description: This is a bidirectional LSTM model saved as a TF SavedModel.
+    input-type: text
+    model-task: binary_classification
+    class-labels:
+        - negative
+        - positive
+    inputs:
+        - column-name: sentence
+          data-type: str
+    outputs:
+        - column-name: sentiment
+          data-type: float
+    targets:
+        - column-name: polarity
+          data-type: bool
+    framework: tensorflow
+    version: 1
+    algorithm: BiLSTM
+    datasets:
+      - imdb_rnn

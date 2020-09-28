@@ -1,0 +1,32 @@
+dataset:
+  name: UCI Wine Quality Dataset
+  files:
+    - train.csv
+    - test/data.csv
+  columns:
+    - column-name: row_id
+      data-type: int
+    - column-name: fixed acidity
+      data-type: float
+    - column-name: volatile acidity
+      data-type: float
+    - column-name: citric acid
+      data-type: float
+    - column-name: residual sugar
+      data-type: float
+    - column-name: chlorides
+      data-type: float
+    - column-name: free sulfur dioxide
+      data-type: float
+    - column-name: total sulfur dioxide
+      data-type: float
+    - column-name: density
+      data-type: float
+    - column-name: pH
+      data-type: float
+    - column-name: sulphates
+      data-type: float
+    - column-name: alcohol
+      data-type: float
+    - column-name: quality
+      data-type: int

@@ -1,0 +1,37 @@
+model:
+    name: Bank Customer Churn Prediction
+    description: Predict whether a customer will stay or churn
+    input-type: structured
+    model-task: binary_classification
+    class-labels:
+        - 1
+        - 0
+    inputs:
+      - {column-name: CreditScore, data-type: int}
+      - column-name: Geography
+        data-type: category
+        possible-values: [France, Germany, Spain]
+      - column-name: Gender
+        data-type: category
+        possible-values: [Female, Male]
+      - {column-name: Age, data-type: int}
+      - {column-name: Tenure, data-type: int}
+      - {column-name: Balance, data-type: float}
+      - {column-name: NumOfProducts, data-type: int}
+      - column-name: HasCrCard
+        data-type: category
+        possible-values: ['Yes', 'No']
+      - column-name: IsActiveMember
+        data-type: category
+        possible-values: ['Yes', 'No']
+      - {column-name: EstimatedSalary, data-type: float}
+    outputs:
+      - column-name: probability_churned
+        data-type: float
+    targets:
+      - column-name: Churned
+        data-type: category
+        possible-values: [Not Churned, Churned]
+    algorithm: Random Forest
+    datasets:
+      - bank_churn

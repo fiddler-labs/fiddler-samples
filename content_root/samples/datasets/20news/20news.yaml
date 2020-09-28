@@ -1,0 +1,6 @@
+dataset:
+    name: "20 Newsgroups Binary Classification: Christianity vs. Atheism"
+    files: [train.csv, test.csv]
+    columns:
+    - {column-name: article, data-type: str}
+    - {column-name: is_christian, data-type: bool}

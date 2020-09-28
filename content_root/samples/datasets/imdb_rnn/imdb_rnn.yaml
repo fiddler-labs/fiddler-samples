@@ -1,0 +1,9 @@
+dataset:
+  name: IMDB Movie Review Test Set
+  files:
+  - imdb_rnn.csv
+  columns:
+    - column-name: sentence
+      data-type: str
+    - column-name: polarity
+      data-type: bool

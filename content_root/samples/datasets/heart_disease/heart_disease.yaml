@@ -1,0 +1,14 @@
+dataset:
+    name: ''
+    columns:
+    - {column-name: age, data-type: int}
+    - {column-name: sex, data-type: int}
+    - {column-name: trestbps, data-type: int}
+    - {column-name: chol, data-type: int}
+    - {column-name: fbs, data-type: int}
+    - {column-name: thalach, data-type: int}
+    - {column-name: exang, data-type: int}
+    - {column-name: oldpeak, data-type: float}
+    - {column-name: slope, data-type: int}
+    - {column-name: target, data-type: int}
+    files: [data.csv]
