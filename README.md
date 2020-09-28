@@ -15,3 +15,9 @@ This package contains tutorials, samples and documentation for using Fiddler.
    make run
 
 5. Go to http://localhost:710
+
+PS: You can download a trail version of Fiddler here:
+   
+   https://fiddler.ai
+   
+   
