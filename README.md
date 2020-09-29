@@ -14,7 +14,7 @@ This package contains tutorials, samples and documentation for using Fiddler.
 
    make run
 
-5. Go to http://localhost:710
+5. Go to http://localhost:7100
 
 PS: You can download a trail version of Fiddler here:
    
