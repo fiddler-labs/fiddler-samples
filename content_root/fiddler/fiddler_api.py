@@ -16,6 +16,7 @@ import yaml
 
 import pandas as pd
 import requests
+import configparser
 
 from .core_objects import (
     AttributionExplanation,
@@ -85,8 +86,19 @@ class FiddlerApi:
         created, found, and changed at <FIDDLER ULR>/settings/credentials.
     :param verbose: if True, api calls will be logged verbosely
     """
-
-    def __init__(self, url: str, org_id: str, auth_token: str, verbose=False):
+    
+   
+    def __init__(self, url=None, org_id=None, auth_token=None, verbose=False):
+        if Path('fiddler.ini').is_file():
+            config = configparser.ConfigParser()
+            config.read('fiddler.ini')
+            info = config['FIDDLER']
+            if not url:
+                url = info['url']
+            if not org_id:
+                org_id = info['org_id']
+            if not auth_token:
+                auth_token = info['auth_token']
 
         if url[-1] == '/':
             raise ValueError('url should not end in "/"')
@@ -98,6 +110,7 @@ class FiddlerApi:
         self.auth_header = {AUTH_HEADER_KEY: f'Bearer {auth_token}'}
         self.streaming_header = {STREAMING_HEADER_KEY: 'application/jsonlines'}
         self.verbose = verbose
+        LOG.info(f'url ={url}')
         try:
             _ = self.list_projects()
         except requests.exceptions.ConnectionError:
@@ -110,6 +123,7 @@ class FiddlerApi:
                 f'API CHECK FAILED: Able to connect to {self.url}, '
                 f'but request failed with message "{str(error)}"'
             )
+
 
     @staticmethod
     def _get_routing_header(path_base: str) -> Dict[str, str]:
