@@ -846,10 +846,11 @@ class FiddlerApi:
 
         :returns: A pandas DataFrame containing the outputs of the model.
         """
+        data_array = [y.iloc[0,:].to_dict() for x , y in df.groupby(level=0)]
         payload = dict(
             project_id=project_id,
             model_id=model_id,
-            data=df.to_dict(orient='records'),
+            data=data_array,
             logging=log_events,
         )
 
@@ -864,34 +865,6 @@ class FiddlerApi:
             res = self._call(path, json_payload=payload)
         return pd.DataFrame(res)
 
-    def run_model_old(
-        self, project_id: str, model_id: str, df: pd.DataFrame, log_events=False
-    ) -> pd.DataFrame:
-        """Executes a model in the Fiddler engine on a DataFrame.
-
-        :param project_id: The unique identifier of the model's project on the
-            Fiddler engine.
-        :param model_id: The unique identifier of the model in the specified
-            project on the Fiddler engine.
-        :param df: A dataframe contining model inputs as rows.
-        :param log_events: Variable determining if the the predictions
-            generated should be logged as production traffic
-
-        :returns: A pandas DataFrame containing the outputs of the model.
-        """
-        payload = dict(
-            project_id=project_id,
-            model_id=model_id,
-            data=df.to_dict(orient='records'),
-            logging=log_events,
-        )
-
-        payload.pop('project_id')
-        payload.pop('model_id')
-
-        path = ['execute', self.org_id, project_id, model_id]
-        res = self._call(path, json_payload=payload)
-        return pd.DataFrame(res)
 
     def run_explanation(
         self,
@@ -928,11 +901,13 @@ class FiddlerApi:
         # wrap single explanation name in a list for the API
         if isinstance(explanations, str):
             explanations = (explanations,)
+            
+        data_array = [y.iloc[0,:].to_dict() for x , y in df.groupby(level=0)]
 
         payload = dict(
             project_id=project_id,
             model_id=model_id,
-            data=df.to_dict(orient='records')[0],
+            data=data_array[0],
             explanations=[dict(explanation=ex) for ex in explanations],
         )
         if dataset_id is not None:
