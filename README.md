@@ -20,6 +20,15 @@ This package contains tutorials, samples and documentation for using Fiddler.
 5. < explain how to get fiddler cloud account or onebox >
    
 6. < explain how to get the auth token and update fiddler.ini >
+
+
+<a name="step-by-step"></a>
+# Step By Step Guide
+
+- **[How to Monitor data?](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/01%20Monitor%20data%20using%20Fiddler.ipynb)
+- **[How to import sklearn regression model?](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02_1%20How%20to%20upload%20a%20simple%20sklearn%20regression%20model.ipynb)
+- 
+
    
    
    
