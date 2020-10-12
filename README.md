@@ -1,4 +1,5 @@
-# Fiddler Samples
+<a name="quick-start-guide"></a>
+# Quick Start Guide
 
 This package contains tutorials, samples and documentation for using Fiddler.
 
@@ -14,10 +15,37 @@ This package contains tutorials, samples and documentation for using Fiddler.
 
    make run
 
-5. Go to http://localhost:7100
+4. Go to http://localhost:7100
 
-PS: You can download a trail version of Fiddler here:
+5. < explain how to get fiddler cloud account or onebox >
    
-   https://fiddler.ai
+6. < explain how to get the auth token and update fiddler.ini >
+   
+   
+   
+<a name="license"></a>
+# License
+
+```
+See LICENSE File for details. 
+```
+
+<a name="i-want-to-know-more"></a>
+# I want to know more!
+
+Here are some links that you will find useful:
+* **[Documentation](https://fiddler.ai)**
+* **[Video tutorial](https://fiddler.ai)**
+* **[Full API Reference](https://fiddler.ai)**
+
+
+<a name="want-to-contribute"></a>
+# Want to Contribute?
+
+This is an open source project, and we'd love to see your contributions!
+
+
+
+
    
    
