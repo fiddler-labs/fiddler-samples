@@ -8,7 +8,7 @@ This package contains tutorials, samples and documentation for using Fiddler.
 
 2. Build notebook server
 
-   cd giddler-samples; make build 
+   cd fiddler-samples; make build 
 
 3. Start noteboook server
 
