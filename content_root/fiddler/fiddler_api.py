@@ -10,6 +10,7 @@ import pickle
 import shutil
 import tempfile
 import textwrap
+import numpy as np
 from typing import Any, Dict, List, Iterable, Optional, Sequence, Union
 from urllib.parse import urlparse
 import yaml
@@ -55,6 +56,17 @@ PredictionEventBundle = namedtuple(
 
 
 _protocol_version = 1
+
+class NpEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        else:
+            return super(NpEncoder, self).default(obj)
 
 
 class FiddlerApi:
@@ -170,7 +182,7 @@ class FiddlerApi:
             request_type = 'GET' if is_get_request else 'POST'
             if json_payload:
                 request_excerpt = textwrap.indent(
-                    json.dumps(json_payload, indent=2)[:2048], '  '
+                    json.dumps(json_payload, indent=2, cls=NpEncoder)[:2048], '  '
                 )
             else:
                 request_excerpt = None
@@ -206,7 +218,7 @@ class FiddlerApi:
                         **{
                             FIDDLER_ARGS_KEY: (
                                 None,  # filename
-                                json.dumps(json_payload),  # data
+                                json.dumps(json_payload, cls=NpEncoder),  # data
                                 'application/json',  # content_type
                             )
                         },
@@ -221,7 +233,8 @@ class FiddlerApi:
                     }
                     req = requests.Request('POST', endpoint, files=form_data)
                 else:
-                    req = requests.Request('POST', endpoint, json=json_payload)
+                    data = json.dumps(json_payload, cls=NpEncoder) 
+                    req = requests.Request('POST', endpoint, data=data)
 
             # add necessary headers
             # using prepare_request from session to keep session data
@@ -317,7 +330,7 @@ class FiddlerApi:
 
         # log the API call on success (excerpt response on success)
         response_excerpt = textwrap.indent(
-            json.dumps(response_payload, indent=2)[:2048], '  '
+            json.dumps(response_payload, indent=2, cls=NpEncoder)[:2048], '  '
         )
         log_msg = (
             f'API call to {endpoint} succeeded.\n'
