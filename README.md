@@ -36,10 +36,11 @@ auth_token = <your-auth-token>
 
 - [How to Monitor data?](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/01%20Monitor%20data%20using%20Fiddler.ipynb)
 - [How to import sklearn regression model?](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02_1%20How%20to%20upload%20a%20simple%20sklearn%20regression%20model.ipynb)
-- 
+- [Debug model import problems](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02_4%20How%20to%20debug%20model%20upload.ipynb)
+- [How to generate a model for your tabular data?](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/03_automodel.ipynb)
+- [Import model hosted on an external server?](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/04%20Import%20model%20hosted%20outside%20of%20Fiddler.ipynb)
+- [Explaining model hosted on Sagemaker](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/09%20Importing%20model%20hosted%20on%20Sagemaker.ipynb)
 
-   
-   
    
 <a name="license"></a>
 # License
