@@ -19,16 +19,17 @@ This package contains tutorials, samples and documentation for using Fiddler.
 
 5. To try out the tutorial you will also need Fiddler server. You can either get a cloud account or download Fiddler image from https://fiddler.ai 
    
-6. Configure auth token
-Login to fiddler account and copy auth token from Settings > Credentials > Key
+6. Configure auth token:
 
-Edit content_root/tutorial/fiddler.ini
+   Login to fiddler account and copy auth token from Settings > Credentials > Key
+
+   Edit content_root/tutorial/fiddler.ini
 
 ```
-[FIDDLER]
-url = https://<your-org>.fiddler.ai
-org_id = <your-org>
-auth_token = <your-auth-token>
+   [FIDDLER]
+   url = https://<your-org>.fiddler.ai
+   org_id = <your-org>
+   auth_token = <your-auth-token>
 ```
 
 <a name="step-by-step"></a>
