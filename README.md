@@ -17,7 +17,7 @@ This package contains tutorials, samples and documentation for using Fiddler.
 
 4. Notebook service is now running at http://localhost:7100
 
-5. To try out the tutorial you will also need Fiddler server. You can either get a cloud account or download Fiddler image from https://fiddler.ai 
+5. To try out the tutorial you will also need Fiddler server. You can either get a cloud account or download Fiddler Onebox from a link that will be emailed to you
    
 6. Configure auth token:
 
