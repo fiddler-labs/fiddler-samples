@@ -36,14 +36,14 @@ This package contains tutorials, samples and documentation for using Fiddler.
 # Step By Step Tutorial:
 
 - [How to Monitor data?](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/01%20Monitor%20data%20using%20Fiddler.ipynb)
-- [How to import sklearn regression model?](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02_1%20How%20to%20upload%20a%20simple%20sklearn%20regression%20model.ipynb)
-- [Debug model import problems](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02_4%20How%20to%20debug%20model%20upload.ipynb)
-- [How to generate a model for your tabular data?](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/03_automodel.ipynb)
-- [Publish realtime events to Fiddler](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/05_publish_event.ipynb)
-- [Import model hosted on an external server?](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/04%20Import%20model%20hosted%20outside%20of%20Fiddler.ipynb)
+- [How to import sklearn regression model?](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02%20How%20to%20upload%20a%20simple%20sklearn%20regression%20model.ipynb)
+- [Debug model import problems](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/03%20How%20to%20debug%20model%20upload.ipynb)
+- [How to generate a model for your tabular data?](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/04%20automodel.ipynb)
+- [Publish realtime events to Fiddler](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/06%20publish_event.ipynb)
+- [Import model hosted on an external server?](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/05%20Import%20model%20hosted%20outside%20of%20Fiddler.ipynb)
 - [Explaining model hosted on Sagemaker](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/09%20Importing%20model%20hosted%20on%20Sagemaker.ipynb)
-- [How to upload a keras model using tabular data with IG enabled](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/08_1%20How%20to%20upload%20a%20keras%20model%20using%20tabular%20data%20with%20IG%20enabled.ipynb)
-- [How to upload a tf model using text data with IG enabled](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/08_2%20How%20to%20upload%20a%20tf%20model%20using%20text%20data%20with%20IG%20enabled.ipynb)
+- [How to upload a keras model using tabular data with IG enabled](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/07%20How%20to%20upload%20a%20keras%20model%20using%20tabular%20data%20with%20IG%20enabled.ipynb)
+- [How to upload a tf model using text data with IG enabled](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/08%20How%20to%20upload%20a%20tf%20model%20using%20text%20data%20with%20IG%20enabled.ipynb)
 
    
 <a name="license"></a>
