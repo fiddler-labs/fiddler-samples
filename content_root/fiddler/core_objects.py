@@ -96,7 +96,11 @@ class AttributionExplanation(NamedTuple):
         """Converts a deserialized JSON format into an
         AttributionExplanation object"""
         algorithm = deserialized_json.pop('explanation_type')
-        inputs, attributions = zip(*deserialized_json.pop('explanation').items())
+        if algorithm == 'ig' and deserialized_json['explanation'] == {}:
+            input_attr = deserialized_json.pop('explanation_ig')
+            inputs, attributions = input_attr[0], input_attr[1]
+        else:
+            inputs, attributions = zip(*deserialized_json.pop('explanation').items())
         return cls(
             algorithm=algorithm,
             inputs=list(inputs),
