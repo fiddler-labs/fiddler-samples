@@ -28,7 +28,6 @@ from .core_objects import (
 )
 from .utils import df_from_json_rows, _try_series_retype
 
-
 LOG = logging.getLogger()
 
 SUCCESS_STATUS = 'SUCCESS'
@@ -86,8 +85,7 @@ class FiddlerApi:
         created, found, and changed at <FIDDLER ULR>/settings/credentials.
     :param verbose: if True, api calls will be logged verbosely
     """
-    
-   
+
     def __init__(self, url=None, org_id=None, auth_token=None, verbose=False):
         if Path('fiddler.ini').is_file():
             config = configparser.ConfigParser()
@@ -123,7 +121,6 @@ class FiddlerApi:
                 f'API CHECK FAILED: Able to connect to {self.url}, '
                 f'but request failed with message "{str(error)}"'
             )
-
 
     @staticmethod
     def _get_routing_header(path_base: str) -> Dict[str, str]:
@@ -256,6 +253,14 @@ class FiddlerApi:
                 f'API call to {endpoint} failed with status 401: '
                 f'Authorization Required. '
                 f'Do you have the right org_id and auth_token?'
+            )
+            LOG.debug(error_msg)
+            raise RuntimeError(error_msg)
+        # catch any failure
+        elif res.status_code != 200:
+            error_msg = (
+                f'API call to {endpoint} failed with status {res.status_code}:'
+                f' The full response message was {res.text}'
             )
             LOG.debug(error_msg)
             raise RuntimeError(error_msg)
@@ -618,19 +623,30 @@ class FiddlerApi:
 
         return result
 
-    def delete_model(self, project_id: str, model_id: str):
+    def delete_model(
+        self, project_id: str, model_id: str, delete_prod=False, delete_pred=True
+    ):
         """Permanently delete a model.
 
         :param project_id: The unique identifier of the model's project on the
             Fiddler engine.
         :param model_id: The unique identifier of the model in the specified
             project on the Fiddler engine.
+        :param delete_prod: Boolean value to delete the production table.
+            By default this table is not dropped.
+        :param delete_pred: Boolean value to delete the prediction table.
+            By default this table is dropped.
 
         :returns: Server response for deletion action.
         """
         try:
             path = ['v1', 'model', 'delete', self.org_id]
-            payload = {'project_id': project_id, 'model_id': model_id}
+            payload = {
+                'project_id': project_id,
+                'model_id': model_id,
+                'delete_prod': delete_prod,
+                'delete_pred': delete_pred,
+            }
             result = self._call(path, json_payload=payload)
         except Exception:
             path = ['delete_model', self.org_id, project_id, model_id]
@@ -846,7 +862,7 @@ class FiddlerApi:
 
         :returns: A pandas DataFrame containing the outputs of the model.
         """
-        data_array = [y.iloc[0,:].to_dict() for x , y in df.groupby(level=0)]
+        data_array = [y.iloc[0, :].to_dict() for x, y in df.groupby(level=0)]
         payload = dict(
             project_id=project_id,
             model_id=model_id,
@@ -864,7 +880,6 @@ class FiddlerApi:
             path = ['execute', self.org_id, project_id, model_id]
             res = self._call(path, json_payload=payload)
         return pd.DataFrame(res)
-
 
     def run_explanation(
         self,
@@ -901,8 +916,8 @@ class FiddlerApi:
         # wrap single explanation name in a list for the API
         if isinstance(explanations, str):
             explanations = (explanations,)
-            
-        data_array = [y.iloc[0,:].to_dict() for x , y in df.groupby(level=0)]
+
+        data_array = [y.iloc[0, :].to_dict() for x, y in df.groupby(level=0)]
 
         payload = dict(
             project_id=project_id,
@@ -1167,7 +1182,7 @@ class FiddlerApi:
         with tempfile.TemporaryDirectory() as tmp:
             pickle_path = Path(tmp) / 'model.pkl'
             with pickle_path.open('wb') as pickle_file:
-                pickle.dump(model, pickle_file)
+                pickle_file.write(pickle.dumps(model))
 
                 try:
                     endpoint_path = ['v1', 'model', 'upload', self.org_id]
@@ -1399,15 +1414,42 @@ class FiddlerApi:
 
         return result
 
-    def publish_event(self, project_id: str, model_id: str, event: dict):
+    def publish_event(
+        self,
+        project_id: str,
+        model_id: str,
+        event: dict,
+        event_id: Optional[str] = None,
+        update_event: Optional[bool] = None,
+        event_time_stamp: Optional[int] = None,
+    ):
         """
-        Publishes an event to Fiddler Service.
-        """
-        try:
-            path = ['v1', 'monitoring', 'update', self.org_id]
-            event.update(dict(project_id=project_id, model_id=model_id))
-            result = self._call(path, json_payload=event)
-        except Exception:
-            path = ['external_event', self.org_id, project_id, model_id]
-            result = self._call(path, event)
+       Publishes an event to Fiddler Service.
+       :param project_id: the project to which the model whose events are
+                          being published belongs
+       :param model_id: the model whose events are being published
+       :param dict event: Dictionary of event details, such as features
+                          and predictions.
+       :param event_id: unique str event id for the event
+       :param update_event: if the event is an update to a previously
+                            published row
+       :param event_time_stamp: the UTC timestamp of the event in
+                                milliseconds
+
+       """
+        if update_event:
+            event['__event_type'] = 'update_event'
+            event['__updated_at'] = event_time_stamp
+            if event_id is None:
+                raise ValueError('An update event needs an event_id')
+        else:
+            event['__event_type'] = 'execution_event'
+            event['__occurred_at'] = event_time_stamp
+
+        if event_id is not None:
+            event['__event_id'] = event_id
+
+        path = ['external_event', self.org_id, project_id, model_id]
+        result = self._call(path, event)
+
         return result
