@@ -12,6 +12,7 @@ from ._version import __version__
 from .fiddler_api import FiddlerApi
 from .client import Fiddler
 from .client import PredictionEventBundle
+from .validator import PackageValidator, ValidationModule, ValidationChainSettings
 from .core_objects import (
     Column,
     DatasetInfo,
@@ -19,12 +20,14 @@ from .core_objects import (
     MLFlowParams,
     ModelInfo,
     ModelInputType,
-    ModelTask,
+    ModelTask
 )
+from .utils import ColorLogger
 
 __all__ = [
     '__version__',
     'Column',
+    'ColorLogger',
     'DatasetInfo',
     'DataType',
     'Fiddler',
@@ -34,5 +37,8 @@ __all__ = [
     'ModelInputType',
     'ModelTask',
     'PredictionEventBundle',
+    'PackageValidator',
+    'ValidationChainSettings',
+    'ValidationModule'
     'utils',
 ]

@@ -62,3 +62,28 @@ def retype_df_for_model(df: pd.DataFrame, model_info: ModelInfo)\
             df[column.name] = _try_series_retype(
                 df[column.name], column.get_pandas_dtype())
     return df
+
+class ColorLogger:
+
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    WHITE = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+    def _log(self, message, color):
+        print(f"{color}{message}{self.WHITE}")
+
+    def info(self, message):
+        self._log(message, self.BLUE)
+
+    def success(self, message):
+        self._log(message, self.GREEN)
+
+    def error(self, message):
+        self._log(message, self.RED)
+    
+    def warn(self, message):
+        self._log(message, self.YELLOW)
