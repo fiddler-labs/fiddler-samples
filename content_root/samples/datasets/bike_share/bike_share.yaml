@@ -1,0 +1,50 @@
+dataset:
+  columns:
+  - column-name: instant
+    data-type: int
+  - column-name: dteday
+    data-type: str
+  - column-name: season
+    data-type: category
+    possible-values:
+    - 1
+    - 2
+    - 3
+    - 4
+  - column-name: yr
+    data-type: int
+  - column-name: mnth
+    data-type: int
+  - column-name: hr
+    data-type: int
+  - column-name: holiday
+    data-type: bool
+  - column-name: weekday
+    data-type: int
+  - column-name: workingday
+    data-type: bool
+  - column-name: weathersit
+    data-type: category
+    possible-values:
+    - 1
+    - 2
+    - 3
+    - 4
+  - column-name: temp
+    data-type: float
+  - column-name: atemp
+    data-type: float
+  - column-name: hum
+    data-type: float
+  - column-name: windspeed
+    data-type: float
+  - column-name: casual
+    data-type: int
+  - column-name: registered
+    data-type: int
+  - column-name: cnt
+    data-type: int
+  files:
+  - bike_share_train.csv
+  - bike_share_test.csv
+  name: bike_share
