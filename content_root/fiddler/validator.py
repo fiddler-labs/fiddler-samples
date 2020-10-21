@@ -7,7 +7,7 @@ import pickle
 
 
 from .core_objects import ModelInfo, DatasetInfo, ModelTask, DataType
-from .pg_reserved_words import pg_reserved_words
+from .assets.pg_reserved_words import pg_reserved_words
 from .utils import ColorLogger
 
 PG_COLUMN_NAME_MAX_LENGTH = 63
@@ -80,8 +80,7 @@ class ValidationModule:
 
     def create_mock_df(self):
         df_dict = {}
-        for column in self.dataset.columns:
-            if column not in self.model.targets:
+        for column in self.model.inputs:
                 data = None
                 if column.data_type is DataType.INTEGER:
                     data = 5

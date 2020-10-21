@@ -13,7 +13,6 @@ from .fiddler_api import FiddlerApi
 from .client import Fiddler
 from .client import PredictionEventBundle
 from .validator import PackageValidator, ValidationModule, ValidationChainSettings
-from .pg_reserved_words import pg_reserved_words
 from .core_objects import (
     Column,
     DatasetInfo,
@@ -42,5 +41,4 @@ __all__ = [
     'ValidationChainSettings',
     'ValidationModule'
     'utils',
-    'pg_reserved_words',
 ]
