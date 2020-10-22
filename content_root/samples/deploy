@@ -29,11 +29,11 @@ datasets = [
 ]
 
 models = {
-    #'bank_churn': ['bank_churn'],
-    #'heart_disease': ['heart_disease'],
-    #'imdb_rnn': ['imdb_rnn', 'imdb_rnn_test'],
-    #'iris_classification': ['iris'],
-    #'lending': ['logreg-all', 'logreg-simple', 'xgboost-simple-sagemaker'],
+    'bank_churn': ['bank_churn'],
+    'heart_disease': ['heart_disease'],
+    'imdb_rnn': ['imdb_rnn', 'imdb_rnn_test'],
+    'iris_classification': ['iris'],
+    'lending': ['logreg-all', 'logreg-simple', 'xgboost-simple-sagemaker'],
     'newsgroup': ['classifier'],
     'titanic': ['sklearn_pipeline'],
     'wine_quality': ['linear_model_wine_regressor', 'dnn_wine_regressor'],
