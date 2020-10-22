@@ -5,9 +5,9 @@ import logging
 from pathlib import Path
 
 
-FIDDLER_ENDPOINT = 'https://trial.fiddler.ai'
-FIDDLER_TOKEN = '...'
-ORG_ID = 'bug-bash'
+FIDDLER_ENDPOINT = 'http://localhost:4100'
+FIDDLER_TOKEN = ''
+ORG_ID = 'onebox'
 CLEAN = False
 
 logging.basicConfig(level=logging.INFO)
