@@ -47,9 +47,9 @@ if CLEAN:
         logging.info(f'Deleting project {project}')
         api.delete_project(project)
 
-#for dataset in datasets:
-    #logging.info(f'uploading dataset {dataset}')
-    #api.upload_dataset_from_dir(dataset, Path('datasets') / dataset)
+for dataset in datasets:
+    logging.info(f'uploading dataset {dataset}')
+    api.upload_dataset_from_dir(dataset, Path('datasets') / dataset)
 
 logging.info(f'current_datasets = {api.list_datasets()}')
 
