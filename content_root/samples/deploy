@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 FIDDLER_ENDPOINT = 'https://trial.fiddler.ai'
-FIDDLER_TOKEN = 'pD8COC39v0_O-dKBCijuOnpvGwsDr_xSvGTfSCy2B5s'
+FIDDLER_TOKEN = '...'
 ORG_ID = 'bug-bash'
 CLEAN = False
 
