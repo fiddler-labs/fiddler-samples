@@ -4,6 +4,7 @@ import contextlib
 import copy
 import json
 import logging
+import numpy as np
 import os.path
 from pathlib import Path
 import pickle
@@ -863,6 +864,15 @@ class FiddlerApi:
         :returns: A pandas DataFrame containing the outputs of the model.
         """
         data_array = [y.iloc[0, :].to_dict() for x, y in df.groupby(level=0)]
+
+        # convert np. type values to python type: some numpy types are not JSON serializable
+        for data in data_array:
+            for key, val in data.items():
+                if isinstance(val, np.bool_):
+                    data[key] = bool(val)
+                if isinstance(val, np.int64):
+                    data[key] = int(val)
+                
         payload = dict(
             project_id=project_id,
             model_id=model_id,
