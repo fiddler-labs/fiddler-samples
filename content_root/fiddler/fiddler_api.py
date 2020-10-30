@@ -4,7 +4,6 @@ import contextlib
 import copy
 import json
 import logging
-import numpy as np
 import os.path
 from pathlib import Path
 import pickle
@@ -27,7 +26,7 @@ from .core_objects import (
     ModelTask,
     MulticlassAttributionExplanation,
 )
-from .utils import df_from_json_rows, _try_series_retype
+from .utils import df_from_json_rows, _try_series_retype, _df_to_dict
 
 LOG = logging.getLogger()
 
@@ -863,16 +862,7 @@ class FiddlerApi:
 
         :returns: A pandas DataFrame containing the outputs of the model.
         """
-        data_array = [y.iloc[0, :].to_dict() for x, y in df.groupby(level=0)]
-
-        # convert np. type values to python type: some numpy types are not JSON serializable
-        for data in data_array:
-            for key, val in data.items():
-                if isinstance(val, np.bool_):
-                    data[key] = bool(val)
-                if isinstance(val, np.int64):
-                    data[key] = int(val)
-                
+        data_array = _df_to_dict(df)
         payload = dict(
             project_id=project_id,
             model_id=model_id,
@@ -927,8 +917,7 @@ class FiddlerApi:
         if isinstance(explanations, str):
             explanations = (explanations,)
 
-        data_array = [y.iloc[0, :].to_dict() for x, y in df.groupby(level=0)]
-
+        data_array = _df_to_dict(df)
         payload = dict(
             project_id=project_id,
             model_id=model_id,
@@ -1076,19 +1065,13 @@ class FiddlerApi:
 
         :returns: Server response for creation action.
         """
-        if train_splits is not None:
-            if len(train_splits) == 0:
-                raise ValueError(
-                    '`train_splits` cannot be an empty list. Pass `None` if '
-                    'you want to train on the entire dataset.'
-                )
-            if len(train_splits) > 1:
-                raise NotImplementedError(
-                    'Sorry, currently only single-split training is '
-                    'supported. Please only pass a maximum of one element to '
-                    '`train_splits`.'
-                )
-        source = f'{train_splits[0]}.csv'
+        if train_splits is not None and len(train_splits) > 1:
+            raise NotImplementedError(
+                'Sorry, currently only single-split training is '
+                'supported. Please only pass a maximum of one element to '
+                '`train_splits`.'
+            )
+        source = None if train_splits is None else train_splits[0]
         dataset_column_names = self.get_dataset_info(dataset_id).get_column_names()
 
         # raise exception if misspelled target

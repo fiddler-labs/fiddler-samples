@@ -81,19 +81,19 @@ class ValidationModule:
     def create_mock_df(self):
         df_dict = {}
         for column in self.model.inputs:
-                data = None
-                if column.data_type is DataType.INTEGER:
-                    data = 5
-                elif column.data_type is DataType.FLOAT:
-                    data = 5.5
-                elif column.data_type is DataType.BOOLEAN:
-                    data = True
-                elif column.data_type is DataType.STRING:
-                    data = "mock_value"
-                else:
-                    # DataType.CATEGORY
-                    data = column.possible_values[0]
-                df_dict[column.name] = [data]
+            data = None
+            if column.data_type is DataType.INTEGER:
+                data = 5
+            elif column.data_type is DataType.FLOAT:
+                data = 5.5
+            elif column.data_type is DataType.BOOLEAN:
+                data = True
+            elif column.data_type is DataType.STRING:
+                data = "mock_value"
+            else:
+                # DataType.CATEGORY
+                data = column.possible_values[0]
+            df_dict[column.name] = [data]
         return pd.DataFrame(df_dict)
 
     def append_error(self, message: str):

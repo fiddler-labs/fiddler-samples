@@ -1,12 +1,11 @@
 # TODO: Add License
-
 import copy
 import enum
 import functools
-import json
 import itertools
-from pathlib import Path
+import json
 import textwrap
+from pathlib import Path
 from typing import (
     Any,
     Dict,
@@ -19,9 +18,9 @@ from typing import (
     Union,
 )
 
+import numpy as np
 import pandas as pd
 import pandas.api.types
-import numpy as np
 
 
 def is_greater_than_max_value(value, limit, epsilon=1e-9):
@@ -782,7 +781,9 @@ class ModelInfo:
         if self.metadata is not None:
             res['metadata'] = [metadata_col.to_dict() for metadata_col in self.metadata]
         if self.decisions is not None:
-            res['decisions'] = [outcome_col.to_dict() for outcome_col in self.decisions]
+            res['decisions'] = [
+                decision_col.to_dict() for decision_col in self.decisions
+            ]
         if self.targets is not None:
             res['targets'] = [target_col.to_dict() for target_col in self.targets]
         if self.description is not None:
@@ -805,7 +806,7 @@ class ModelInfo:
         """Returns a list of names for model metadata."""
         return [column.name for column in self.metadata]
 
-    def get_outcome_names(self):
+    def get_decision_names(self):
         """Returns a list of names for model decisions."""
         return [column.name for column in self.decisions]
 
@@ -835,7 +836,7 @@ class ModelInfo:
     def get_decisions_pandas_dtypes(
         self,
     ) -> Dict[str, Union[str, pandas.api.types.CategoricalDtype]]:
-        """Get a dictionary describing the pandas datatype of every outcome
+        """Get a dictionary describing the pandas datatype of every decision
         column. """
         return _get_field_pandas_dtypes(self.decisions)
 
@@ -907,7 +908,7 @@ class ModelInfo:
         target: str,
         features: Optional[Sequence[str]] = None,
         metadata_cols: Optional[Sequence[str]] = None,
-        outcome_cols: Optional[Sequence[str]] = None,
+        decision_cols: Optional[Sequence[str]] = None,
         display_name: Optional[str] = None,
         description: Optional[str] = None,
         input_type: ModelInputType = ModelInputType.TABULAR,
@@ -922,7 +923,7 @@ class ModelInfo:
         :param features: A list of column names for columns used as features.
         :param metadata_cols: A list of column names for columns used as
         metadata.
-        :param outcome_cols: A list of column names for columns used as
+        :param decision_cols: A list of column names for columns used as
         decisions.
         :param display_name: A model name for user-facing display (different
             from an id).
@@ -939,7 +940,7 @@ class ModelInfo:
         if display_name is None:
             display_name = f'{dataset_info.display_name} model'
 
-        # infer inputs, and add metadata and outcome columns, if they exist
+        # infer inputs, and add metadata and decision columns, if they exist
 
         inputs = list()
 
@@ -950,8 +951,8 @@ class ModelInfo:
         else:
             metadata = None
 
-        if outcome_cols is not None:
-            additional_columns += outcome_cols
+        if decision_cols is not None:
+            additional_columns += decision_cols
             decisions = list()
         else:
             decisions = None
@@ -982,7 +983,7 @@ class ModelInfo:
                 inputs.append(column.copy())
             if metadata_cols and col_name in metadata_cols:
                 metadata.append(column.copy())
-            if outcome_cols and col_name in outcome_cols:
+            if decision_cols and col_name in decision_cols:
                 decisions.append(column.copy())
 
         # determine target column
