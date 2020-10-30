@@ -1364,8 +1364,22 @@ class FiddlerApi:
             )
 
     def setup_monitoring(
-        self, project_id, name, baseline_df, dataset_info, target, features
+        self, project_id, name, baseline_df, dataset_info,
+        target, features, generate_model=True
     ):
+        """
+        Uploads a baseline to fiddler, optionally creates a surrogate model
+        and sets up monitoring on this stream
+
+        :param project_id: id of the project
+        :param name: name to be used for the dataset and model
+        :param baseline_df: baseline Dataframe
+        :param dataset_info: schema for the baseline
+        :param target: target for the generated model
+        :param features: input features to the model
+        :param generate_model: True if a surrogate model must be generated
+        :return: location of the newly created model
+        """
         try:
             self.get_dataset_info(name)
             raise ValueError(f'name already in used: {name}')
