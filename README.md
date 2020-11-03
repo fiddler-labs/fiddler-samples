@@ -31,8 +31,8 @@ This package contains tutorials, samples and documentation for using Fiddler.
 
 ```
    [FIDDLER]
-   url = https://<your-org>.fiddler.ai
-   org_id = <your-org>
+   url = https://<your-org-cluster>.fiddler.ai
+   org_id = <your-org-account>
    auth_token = <your-auth-token>
 ```
 
