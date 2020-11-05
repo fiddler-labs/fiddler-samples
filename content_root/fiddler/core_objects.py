@@ -914,6 +914,7 @@ class ModelInfo:
         input_type: ModelInputType = ModelInputType.TABULAR,
         model_task: Optional[ModelTask] = None,
         mlflow_params: Optional[MLFlowParams] = None,
+        outputs: Optional[Sequence[str]] = None,
     ):
         """Produces a ModelInfo for a model trained on a dataset.
 
@@ -934,6 +935,7 @@ class ModelInfo:
             model. If not explicitly provided, this will be inferred from the
             data type of the target variable.
         :param mlflow_params: MLFlow parameters.
+        :param outputs model output parameters
 
         :returns A ModelInfo object.
         """
@@ -986,65 +988,73 @@ class ModelInfo:
             if decision_cols and col_name in decision_cols:
                 decisions.append(column.copy())
 
-        # determine target column
-        try:
-            target_column = dataset_info[target]
-        except KeyError:
-            raise ValueError(f'Target "{target}" not found in dataset.')
-
-        # infer task type, outputs, and target levels from target
-        if target_column.data_type.value == DataType.BOOLEAN.value:
-            target_levels = [False, True]
-            outputs = [
-                Column(
-                    name=f'probability_{target_column.name}_True',
-                    data_type=DataType.FLOAT,
-                    is_nullable=False,
-                    value_range_min=0.0,
-                    value_range_max=1.0,
+        if outputs:
+            output_columns = []
+            for output in outputs:
+                output_columns.append(
+                    Column(name=output, data_type=DataType.FLOAT, is_nullable=False,)
                 )
-            ]
-            if model_task is None:
-                model_task = ModelTask.BINARY_CLASSIFICATION
-        elif target_column.data_type.value == DataType.CATEGORY.value:
-            target_levels = target_column.possible_values
-            if model_task is None:
-                if len(target_levels) == 2:
-                    model_task = ModelTask.BINARY_CLASSIFICATION
-                else:
-                    model_task = ModelTask.MULTICLASS_CLASSIFICATION
-            if model_task.value == ModelTask.BINARY_CLASSIFICATION.value:
-                outputs = [
-                    Column(
-                        name=f'probability_{target_levels[1]}',
-                        data_type=DataType.FLOAT,
-                        is_nullable=False,
-                        value_range_min=0.0,
-                        value_range_max=1.0,
-                    )
-                ]
-            else:
-                outputs = [
-                    Column(
-                        name=f'probability_{level}',
-                        data_type=DataType.FLOAT,
-                        is_nullable=False,
-                        value_range_min=0.0,
-                        value_range_max=1.0,
-                    )
-                    for level in target_levels
-                ]
+            target_column = None
         else:
-            target_levels = None
-            outputs = [
-                Column(
-                    name=f'predicted_{target_column.name}',
-                    data_type=DataType.FLOAT,
-                    is_nullable=False,
-                )
-            ]
-            if model_task is None:
-                model_task = ModelTask.REGRESSION
+            # determine target column
+            try:
+                target_column = dataset_info[target]
+            except KeyError:
+                raise ValueError(f'Target "{target}" not found in dataset.')
+
+            # infer task type, outputs, and target levels from target
+            if target_column.data_type.value == DataType.BOOLEAN.value:
+                target_levels = [False, True]
+                output_columns = [
+                    Column(
+                        name=f'probability_{target_column.name}_True',
+                        data_type=DataType.FLOAT,
+                        is_nullable=False,
+                        value_range_min=0.0,
+                        value_range_max=1.0,
+                    )
+                ]
+                if model_task is None:
+                    model_task = ModelTask.BINARY_CLASSIFICATION
+            elif target_column.data_type.value == DataType.CATEGORY.value:
+                target_levels = target_column.possible_values
+                if model_task is None:
+                    if len(target_levels) == 2:
+                        model_task = ModelTask.BINARY_CLASSIFICATION
+                    else:
+                        model_task = ModelTask.MULTICLASS_CLASSIFICATION
+                if model_task.value == ModelTask.BINARY_CLASSIFICATION.value:
+                    output_columns = [
+                        Column(
+                            name=f'probability_{target_levels[1]}',
+                            data_type=DataType.FLOAT,
+                            is_nullable=False,
+                            value_range_min=0.0,
+                            value_range_max=1.0,
+                        )
+                    ]
+                else:
+                    output_columns = [
+                        Column(
+                            name=f'probability_{level}',
+                            data_type=DataType.FLOAT,
+                            is_nullable=False,
+                            value_range_min=0.0,
+                            value_range_max=1.0,
+                        )
+                        for level in target_levels
+                    ]
+            else:
+                target_levels = None
+                output_columns = [
+                    Column(
+                        name=f'predicted_{target_column.name}',
+                        data_type=DataType.FLOAT,
+                        is_nullable=False,
+                    )
+                ]
+                if model_task is None:
+                    model_task = ModelTask.REGRESSION
 
         datasets = None
         if dataset_info.dataset_id is not None:
@@ -1056,11 +1066,11 @@ class ModelInfo:
             input_type=input_type,
             model_task=model_task,
             inputs=inputs,
-            outputs=outputs,
+            outputs=output_columns,
             metadata=metadata,
             decisions=decisions,
             datasets=datasets,
-            targets=[target_column],
+            targets=[target_column] if target_column else [],
             mlflow_params=mlflow_params,
         )
 
