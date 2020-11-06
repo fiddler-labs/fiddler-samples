@@ -1366,10 +1366,10 @@ class FiddlerApi:
             )
 
     def create_surrogate_model(
-        self, project_id, name, baseline_df, dataset_info, target, features, model_task
+        self, project_id, name, baseline_df, dataset_info, target, features
     ):
         """
-        Uploads a baseline to fiddler, optionally creates a surrogate model
+        Uploads a baseline to fiddler, and creates a surrogate model
         and sets up monitoring on this stream
 
         :param project_id: id of the project
@@ -1378,8 +1378,6 @@ class FiddlerApi:
         :param dataset_info: schema for the baseline
         :param target: target for the generated model
         :param features: input features to the model
-        :param generate_model: True if a surrogate model must be generated
-        :param model_output: Model output specified if generate_model==False
         :return: location of the newly created model
         """
         print('Validating inputs ...')
@@ -1403,11 +1401,13 @@ class FiddlerApi:
             train_splits=train_splits,
             model_id=name,
         )
+        print('Triggering model predictions ...')
+        self.trigger_model_predictions(project_id, name, name)
 
         project_url = self.url.replace('host.docker.internal', 'localhost', 1)
         return (
-            f'Monitoring successfully setup on Fiddler. \n '
-            f'Visit {project_url}/projects/{project_id} to monitor'
+            f'Surrogate model successfully setup on Fiddler. \n '
+            f'Visit {project_url}/projects/{project_id} '
         )
 
     def create_model_from_prediction_log(
@@ -1421,8 +1421,7 @@ class FiddlerApi:
         dataset_info=None,
     ):
         """
-        Uploads a baseline to fiddler, optionally creates a surrogate model
-        and sets up monitoring on this stream
+        Creates a model based on the prediction log specified.
 
         :param project_id: id of the project
         :param name: name to be used for the dataset and model
@@ -1513,18 +1512,10 @@ class FiddlerApi:
     ):
         """Makes the Fiddler service compute and cache model predictions on a
         dataset."""
-        payload = dict(project_id=project_id, model_id=model_id, dataset_id=dataset_id)
-
-        try:
-            path = ['v1', 'execution', 'run', self.org_id]
-            result = self._call(path, json_payload=payload)
-        except Exception:
-            payload.pop('project_id')
-            payload['dataset'] = payload.pop('dataset_id')
-
-            result = self._call(
-                ['dataset_predictions', self.org_id, project_id], payload
-            )
+        payload = dict(model=model_id, dataset=dataset_id)
+        result = self._call(
+            ['dataset_predictions', self.org_id, project_id], payload
+        )
 
         return result
 
