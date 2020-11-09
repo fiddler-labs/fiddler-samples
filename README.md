@@ -8,6 +8,10 @@ This package contains tutorials, samples and documentation for using Fiddler.
    ```git clone https://github.com/fiddler-labs/fiddler-samples.git```
 
 2. Build notebook server
+   
+   Prerequisite: 
+   
+      Docker - min. Docker EE 18.09 or CE 17.12.1 installed and running.
 
    ```cd fiddler-samples; make build``` 
 
@@ -27,8 +31,8 @@ This package contains tutorials, samples and documentation for using Fiddler.
 
 ```
    [FIDDLER]
-   url = https://<your-org>.fiddler.ai
-   org_id = <your-org>
+   url = https://<your-org-cluster>.fiddler.ai
+   org_id = <your-org-account>
    auth_token = <your-auth-token>
 ```
 

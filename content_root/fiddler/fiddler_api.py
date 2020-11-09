@@ -1,32 +1,34 @@
 # TODO: Add License
-from collections import namedtuple
+import configparser
 import contextlib
 import copy
 import json
 import logging
 import os.path
-from pathlib import Path
 import pickle
 import shutil
 import tempfile
 import textwrap
-from typing import Any, Dict, List, Iterable, Optional, Sequence, Union
+from collections import namedtuple
+from pathlib import Path
+from typing import Any, Dict, Iterable, List, Optional, Sequence, Union
 from urllib.parse import urlparse
-import yaml
 
 import pandas as pd
 import requests
-import configparser
+import yaml
 
 from .core_objects import (
     AttributionExplanation,
+    Column,
     DatasetInfo,
+    DataType,
     ModelInfo,
     ModelInputType,
     ModelTask,
     MulticlassAttributionExplanation,
 )
-from .utils import df_from_json_rows, _try_series_retype
+from .utils import _df_to_dict, _try_series_retype, df_from_json_rows
 
 LOG = logging.getLogger()
 
@@ -721,6 +723,23 @@ class FiddlerApi:
 
         return res
 
+    def _import_model_predictions(
+        self,
+        project_id: str,
+        dataset_id: str,
+        model_id: str,
+        columns: Sequence[Dict],
+        csv_file_paths: List[Path],
+    ):
+        """Uploads model predictions to Fiddler platform."""
+        payload = dict(dataset=dataset_id)
+        payload['model'] = model_id
+        payload['columns'] = columns
+
+        path = ['import_model_predictions', self.org_id, project_id]
+        result = self._call(path, json_payload=payload, files=csv_file_paths)
+        return result
+
     def upload_dataset(
         self,
         dataset: Union[pd.DataFrame, Dict[str, pd.DataFrame]],
@@ -862,7 +881,7 @@ class FiddlerApi:
 
         :returns: A pandas DataFrame containing the outputs of the model.
         """
-        data_array = [y.iloc[0, :].to_dict() for x, y in df.groupby(level=0)]
+        data_array = _df_to_dict(df)
         payload = dict(
             project_id=project_id,
             model_id=model_id,
@@ -917,8 +936,7 @@ class FiddlerApi:
         if isinstance(explanations, str):
             explanations = (explanations,)
 
-        data_array = [y.iloc[0, :].to_dict() for x, y in df.groupby(level=0)]
-
+        data_array = _df_to_dict(df)
         payload = dict(
             project_id=project_id,
             model_id=model_id,
@@ -1038,7 +1056,7 @@ class FiddlerApi:
         if res:
             return res
 
-    def create_model(
+    def train_model(
         self,
         project_id: str,
         dataset_id: str,
@@ -1066,19 +1084,13 @@ class FiddlerApi:
 
         :returns: Server response for creation action.
         """
-        if train_splits is not None:
-            if len(train_splits) == 0:
-                raise ValueError(
-                    '`train_splits` cannot be an empty list. Pass `None` if '
-                    'you want to train on the entire dataset.'
-                )
-            if len(train_splits) > 1:
-                raise NotImplementedError(
-                    'Sorry, currently only single-split training is '
-                    'supported. Please only pass a maximum of one element to '
-                    '`train_splits`.'
-                )
-        source = f'{train_splits[0]}.csv'
+        if train_splits is not None and len(train_splits) > 1:
+            raise NotImplementedError(
+                'Sorry, currently only single-split training is '
+                'supported. Please only pass a maximum of one element to '
+                '`train_splits`.'
+            )
+        source = None if train_splits is None else train_splits[0]
         dataset_column_names = self.get_dataset_info(dataset_id).get_column_names()
 
         # raise exception if misspelled target
@@ -1353,18 +1365,35 @@ class FiddlerApi:
                 endpoint_path, json_payload=payload, files=[model_tarfile]
             )
 
-    def setup_monitoring(
+    def create_surrogate_model(
         self, project_id, name, baseline_df, dataset_info, target, features
     ):
+        """
+        Uploads a baseline to fiddler, and creates a surrogate model
+        and sets up monitoring on this stream
+
+        :param project_id: id of the project
+        :param name: name to be used for the dataset and model
+        :param baseline_df: baseline Dataframe
+        :param dataset_info: schema for the baseline
+        :param target: target for the generated model
+        :param features: input features to the model
+        :return: location of the newly created model
+        """
+        print('Validating inputs ...')
         try:
             self.get_dataset_info(name)
             raise ValueError(f'name already in used: {name}')
         except Exception:
             LOG.info('dataset not found, creating it')
 
+        print('Uploading dataset ...')
+
+        dataset_info.dataset_id = name
         self.upload_dataset(baseline_df, name, split_test=False, info=dataset_info)
         train_splits = ['data']
-        self.create_model(
+        print('Generating surrogate model ...')
+        self.train_model(
             project_id,
             name,
             target=target,
@@ -1372,6 +1401,90 @@ class FiddlerApi:
             train_splits=train_splits,
             model_id=name,
         )
+        print('Triggering model predictions ...')
+        self.trigger_model_predictions(project_id, name, name)
+
+        project_url = self.url.replace('host.docker.internal', 'localhost', 1)
+        return (
+            f'Surrogate model successfully setup on Fiddler. \n '
+            f'Visit {project_url}/projects/{project_id} '
+        )
+
+    def create_model_from_prediction_log(
+        self,
+        project_id,
+        model_id,
+        prediction_log_df,
+        features,
+        outputs,
+        model_task,
+        dataset_info=None,
+    ):
+        """
+        Creates a model based on the prediction log specified.
+
+        :param project_id: id of the project
+        :param name: name to be used for the dataset and model
+        :param baseline_df: baseline Dataframe
+        :param dataset_info: schema for the baseline
+        :param target: target for the generated model
+        :param features: input features to the model
+        :param generate_model: True if a surrogate model must be generated
+        :param model_output: Model output specified if generate_model==False
+        :return: location of the newly created model
+        """
+        print('Validating inputs ...')
+        try:
+            self.get_dataset_info(model_id)
+            raise ValueError(f'name already in used: {model_id}')
+        except Exception:
+            LOG.info('dataset not found, creating it')
+
+        print('Uploading dataset ...')
+        baseline_df = prediction_log_df.drop(columns=outputs)
+
+        if not dataset_info:
+            dataset_info = DatasetInfo.from_dataframe(
+                baseline_df, max_inferred_cardinality=1000
+            )
+
+        dataset_info.dataset_id = model_id
+        self.upload_dataset(baseline_df, model_id, split_test=False, info=dataset_info)
+        print('Setting up monitoring without model artifact ...')
+        package_py = (
+            'def get_model():\n\traise RuntimeError("Model artifact not available")'
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_dir = Path(tmp)
+            model_info = ModelInfo.from_dataset_info(
+                dataset_info=dataset_info,
+                target=None,
+                features=features,
+                display_name=model_id,
+                description='Model-less monitoring',
+                model_task=model_task,
+                outputs=outputs,
+            )
+            model_info.framework = 'no-model-artifact'
+            package_py_file = tmp_dir / 'package.py'
+            with open(package_py_file, mode='w') as fid:
+                fid.write(package_py)
+            self.upload_model_custom(tmp_dir, model_info, project_id, model_id)
+
+        output_columns = [Column('__dataset_fiddler_id', DataType.INTEGER).to_dict()]
+        for output in outputs:
+            output_columns.append(Column(output, DataType.FLOAT).to_dict())
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_dir = Path(tmp)
+            output_df = prediction_log_df[outputs]
+            output_df.insert(0, '__dataset_fiddler_id', range(1, 1 + len(output_df)))
+            path = tmp_dir / 'data.csv'
+            output_df.to_csv(path, index=False, header=None)
+            self._import_model_predictions(
+                project_id, model_id, model_id, output_columns, [path]
+            )
+
         project_url = self.url.replace('host.docker.internal', 'localhost', 1)
         return (
             f'Monitoring successfully setup on Fiddler. \n '
@@ -1399,18 +1512,10 @@ class FiddlerApi:
     ):
         """Makes the Fiddler service compute and cache model predictions on a
         dataset."""
-        payload = dict(project_id=project_id, model_id=model_id, dataset_id=dataset_id)
-
-        try:
-            path = ['v1', 'execution', 'run', self.org_id]
-            result = self._call(path, json_payload=payload)
-        except Exception:
-            payload.pop('project_id')
-            payload['dataset'] = payload.pop('dataset_id')
-
-            result = self._call(
-                ['dataset_predictions', self.org_id, project_id], payload
-            )
+        payload = dict(model=model_id, dataset=dataset_id)
+        result = self._call(
+            ['dataset_predictions', self.org_id, project_id], payload
+        )
 
         return result
 

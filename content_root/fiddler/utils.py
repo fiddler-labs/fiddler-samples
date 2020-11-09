@@ -3,6 +3,7 @@ import logging
 from typing import List
 
 import pandas as pd
+import numpy as np
 
 from .core_objects import (
     Column,
@@ -63,6 +64,21 @@ def retype_df_for_model(df: pd.DataFrame, model_info: ModelInfo)\
                 df[column.name], column.get_pandas_dtype())
     return df
 
+
+def _df_to_dict(df: pd.DataFrame):
+    data_array = [y.iloc[0, :].to_dict() for x, y in df.groupby(level=0)]
+    # convert numpy type values to python type: some numpy types are not JSON serializable
+    for data in data_array:
+        for key, val in data.items():
+            if isinstance(val, np.bool_):
+                data[key] = bool(val)
+            if isinstance(val, np.int64):
+                data[key] = int(val)
+            if isinstance(val, np.float32):
+                data[key] = float(val)
+    return data_array
+
+
 class ColorLogger:
 
     BLUE = '\033[94m'
@@ -84,6 +100,6 @@ class ColorLogger:
 
     def error(self, message):
         self._log(message, self.RED)
-    
+
     def warn(self, message):
         self._log(message, self.YELLOW)
