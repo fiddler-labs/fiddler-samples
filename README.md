@@ -35,11 +35,7 @@ This package contains tutorials, samples, and documentation for using Fiddler.
    
    To update token and client URL visit: 
 
-<<<<<<< HEAD
    content_root/tutorial/00 Setup.ipynb
-=======
-   Edit `content_root/tutorial/fiddler.ini`
->>>>>>> master
 
 ```
    [FIDDLER]
