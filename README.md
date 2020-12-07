@@ -29,11 +29,17 @@ This package contains tutorials, samples, and documentation for using Fiddler.
 
 5. To try out the tutorial you will also need Fiddler server. You can either get a cloud account or download Fiddler Onebox from a link that will be emailed to you
    
-6. Configure auth token:
+6. Configure fiddler client:
 
    Login to fiddler account and copy auth token from Settings > Credentials > Key
+   
+   To update token and client URL visit: 
 
+<<<<<<< HEAD
+   content_root/tutorial/00 Setup.ipynb
+=======
    Edit `content_root/tutorial/fiddler.ini`
+>>>>>>> master
 
 ```
    [FIDDLER]
