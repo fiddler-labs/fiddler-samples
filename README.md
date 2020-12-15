@@ -1,7 +1,7 @@
 <a name="quick-start-guide"></a>
 
 <div align="left">
-    <img src="content_root/tutorial/images/fiddler_client.png"
+    <img src="tutorial/images/fiddler_client.png"
          alt="Image of Fiddler logo"/>
 </div>
 
