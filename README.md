@@ -1,7 +1,7 @@
 <a name="quick-start-guide"></a>
 
 <div align="left">
-    <img src="https://global-uploads.webflow.com/5e067beb4c88a64e31622d4b/5efa291bd80756354b0968a9_fiddler-logo-p-500.png"
+    <img src="content_root/tutorial/images/fiddler_client.png"
          alt="Image of Fiddler logo"/>
 </div>
 
