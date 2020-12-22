@@ -17,7 +17,7 @@ logs:
 	docker logs fiddler_samples
 
 run:
-	docker run --rm -d --user ${UID}:${GID} --group-add users -p 8888:7100 -v ${FIDDLER_DIR}/content_root:/app/fiddler_samples --name=fiddler_samples fiddler_samples:latest
+	docker run --rm -d --user ${UID}:${GID} --group-add users -p 7100:7100 -v ${FIDDLER_DIR}/content_root:/app/fiddler_samples --name=fiddler_samples fiddler_samples:latest
 
 ssh:
 	docker exec -it fiddler_samples /bin/bash
