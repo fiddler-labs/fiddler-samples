@@ -18,7 +18,6 @@ PRED_COLUMN_NAMES = ['probability_charged_off']
 
 
 def get_model():
-    raise RuntimeError('Model not available')
     return SimpleSklearnModel(
         PACKAGE_PATH / MODEL_FILE_NAME, PRED_COLUMN_NAMES,
         path_to_serialized_transformer=PACKAGE_PATH / TRANSFORMER_FILE_NAME,

@@ -2,7 +2,7 @@ dataset:
   name: UCI Wine Quality Dataset
   files:
     - train.csv
-    - test/data.csv
+    - test.csv
   columns:
     - column-name: row_id
       data-type: int
