@@ -6,7 +6,8 @@ COPY jupyter_notebook_config.py $HOME/.jupyter/jupyter_notebook_config.py
 ENV PYTHONPATH .:/app/fiddler_samples
 
 # Install Python 3 packages
-RUN pip install -r requirements.txt
+RUN pip --default-timeout=1000 install -r requirements.txt
+
 
 # Copy config to root's home directory. Enables running as root.
 COPY jupyter_notebook_config.py /root/.jupyter/jupyter_notebook_config.py
