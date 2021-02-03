@@ -12,12 +12,13 @@ build:
 
 stop:
 	-docker stop fiddler_samples
+	-docker rm fiddler_samples
 
 logs:
 	docker logs fiddler_samples
 
 run:
-	docker run --rm -d --user ${UID}:${GID} --group-add users -p 7100:7100 -v ${FIDDLER_DIR}/content_root:/app/fiddler_samples --name=fiddler_samples fiddler_samples:latest
+	docker run -d --user ${UID}:${GID} --group-add users -p 7100:7100 -v ${FIDDLER_DIR}/content_root:/app/fiddler_samples --name=fiddler_samples fiddler_samples:latest
 
 ssh:
 	docker exec -it fiddler_samples /bin/bash
