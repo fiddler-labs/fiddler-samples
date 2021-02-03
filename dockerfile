@@ -7,8 +7,10 @@ ENV PYTHONPATH .:/app/fiddler_samples
 
 # Install Python 3 packages
 RUN pip install -r requirements.txt
-RUN rm -rf /opt/venv/lib/python3.7/site-packages/xgboost
-ADD xgboost_06a2.tar /opt/venv/lib/python3.7/site-packages/
+RUN rm -rf /opt/conda/lib/python3.7/site-packages/xgboost
+RUN rm -rf /opt/conda/xgboost/libxgboost.so
+ADD xgboost /opt/conda/lib/python3.7/site-packages/xgboost
+ADD xgboost/libxgboost.so /opt/conda/xgboost
 
 # Copy config to root's home directory. Enables running as root.
 COPY jupyter_notebook_config.py /root/.jupyter/jupyter_notebook_config.py
