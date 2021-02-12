@@ -46,7 +46,7 @@ This package contains tutorials, samples, and documentation for using Fiddler.
 
 <a name="examples"></a>
 # Examples:
-*The goal of these notebooks is to show you how to upload dataset and model, ingest production traffic into Fiddler using different model frameworks and data types. You can also use these as a reference guide to upload your dataset and model along with production traffic that you want to monitor, into Fiddler.*
+*The goal of these notebooks is to show you how to walkthrough installation, monitoring, and model upload of Fiddler using different model frameworks and data types. You can also use these as a reference guide to upload your dataset and model along with production traffic that you want to monitor, into Fiddler.*
 
 #### Installation
 - [Install & Setup](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/00%20Setup.ipynb)
