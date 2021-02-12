@@ -46,13 +46,13 @@ This package contains tutorials, samples, and documentation for using Fiddler.
 
 <a name="examples"></a>
 # Examples:
-* The goal of these notebooks is to show you how to upload dataset and model, ingest production traffic into Fiddler using different model frameworks and data types. You can also use these as a reference guide to upload your dataset and model along with production traffic that you want to monitor, into Fiddler. *
+*The goal of these notebooks is to show you how to upload dataset and model, ingest production traffic into Fiddler using different model frameworks and data types. You can also use these as a reference guide to upload your dataset and model along with production traffic that you want to monitor, into Fiddler.*
 
-## Installation
+#### Installation
 - [Install & Setup](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/00%20Setup.ipynb)
-## Monitoring
+#### Monitoring
 - [Monitoring Quick Start](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/Quick%20Start.ipynb)
-## Model Upload
+#### Model Upload
 - [Sklearn Tabular Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02%20How%20to%20upload%20a%20simple%20sklearn%20regression%20model.ipynb)
 - [Tensorflow Tabular Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/07%20Detailed%20tutorial%20-%20Tabular%20data%20with%20IG%20enabled.ipynb)
 - [Tensorflow Text Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/08%20How%20to%20upload%20a%20tf%20model%20using%20text%20data%20with%20IG%20enabled.ipynb)
