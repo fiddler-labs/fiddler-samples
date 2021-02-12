@@ -1,11 +1,11 @@
-<a name="quick-start-guide"></a>
+<a name="getting-started"></a>
 
 <div align="left">
     <img src="content_root/tutorial/images/logo.png"
          alt="Image of Fiddler logo"/>
 </div>
 
-# Quick Start Guide
+# Getting Started
 
 This package contains tutorials, samples, and documentation for using Fiddler.
 
@@ -35,7 +35,7 @@ This package contains tutorials, samples, and documentation for using Fiddler.
    
    To update token and client URL visit: 
 
-   content_root/tutorial/00 Setup.ipynb
+   content_root/tutorial/00 Install & Setup.ipynb
 
 ```
    [FIDDLER]
@@ -44,20 +44,21 @@ This package contains tutorials, samples, and documentation for using Fiddler.
    auth_token = <your-auth-token>
 ```
 
-<a name="step-by-step"></a>
-# Step By Step Tutorial:
+<a name="examples"></a>
+# Examples:
+* The goal of these notebooks is to show you how to upload dataset and model, ingest production traffic into Fiddler using different model frameworks and data types. You can also use these as a reference guide to upload your dataset and model along with production traffic that you want to monitor, into Fiddler. *
 
-- [Setup Fiddler client](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/00%20Setup.ipynb)
-- [How to monitor data](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/01%20Basic%20model%20monitoring.ipynb)
-- [How to monitor with surrogate explanation](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/01a%20Model%20monitoring%20with%20surrogate%20explanation.ipynb)
-- [How to import sklearn regression model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02%20How%20to%20upload%20a%20simple%20sklearn%20regression%20model.ipynb)
-- [Debug model import problems](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/03%20How%20to%20debug%20model%20upload.ipynb)
-- [How to generate a model from your tabular data](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/04%20automodel.ipynb)
-- [Publish realtime events to Fiddler](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/06%20publish_event.ipynb)
-- [How to import a model hosted on an external server](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/05%20Import%20model%20hosted%20outside%20of%20Fiddler.ipynb)
-- [Explaining model hosted on Sagemaker](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/09%20Importing%20model%20hosted%20on%20Sagemaker.ipynb)
-- [How to upload a keras model using tabular data with IG enabled](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/07%20How%20to%20upload%20a%20keras%20model%20using%20tabular%20data%20with%20IG%20enabled.ipynb)
-- [How to upload a tf model using text data with IG enabled](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/08%20How%20to%20upload%20a%20tf%20model%20using%20text%20data%20with%20IG%20enabled.ipynb)
+## Installation
+- [Install & Setup](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/00%20Setup.ipynb)
+## Monitoring
+- [Monitoring Quick Start](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/Quick%20Start.ipynb)
+## Model Upload
+- [Sklearn Tabular Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02%20How%20to%20upload%20a%20simple%20sklearn%20regression%20model.ipynb)
+- [Tensorflow Tabular Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/07%20Detailed%20tutorial%20-%20Tabular%20data%20with%20IG%20enabled.ipynb)
+- [Tensorflow Text Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/08%20How%20to%20upload%20a%20tf%20model%20using%20text%20data%20with%20IG%20enabled.ipynb)
+- [PyTorch Text Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/10%20Detailed%20tutorial%20-%20Tabular%20data%20with%20IG%20-%20PyTorch.ipynb)
+- [Model Upload Using Containers](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/upload-model-containers.ipynb)
+- [Debug Model Upload Issues](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/03%20How%20to%20debug%20model%20upload.ipynb)
 
    
 <a name="license"></a>
@@ -72,7 +73,6 @@ See LICENSE File for details.
 
 Here are some links that you will find useful:
 * **[Documentation](https://docs.fiddler.ai/)**
-* **[todo: Video tutorial](https://fiddler.ai)**
 * **[Full API Reference](https://docs.fiddler.ai/api-reference/python-package/)**
 * **[Fiddler Slack](https://fiddler-community.slack.com/)**
 
