@@ -49,16 +49,17 @@ This package contains tutorials, samples, and documentation for using Fiddler.
 *The goal of these notebooks is to show you how to walkthrough installation, monitoring, and model upload of Fiddler using different model frameworks and data types. You can also use these as a reference guide to upload your dataset and model along with production traffic that you want to monitor, into Fiddler.*
 
 #### Installation
-- [Install & Setup](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/00%20Setup.ipynb)
+- [Install & Setup](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/00%20Install%20%26%20Setup.ipynb)
 #### Monitoring
-- [Monitoring Quick Start](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/Quick%20Start.ipynb)
+- [Monitoring Quick Start](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/01a%20Monitoring%20Quickstart.ipynb)
+- [Monitoring With Your Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/01b%20Monitoring%20With%20Your%20Model%20.ipynb)
 #### Model Upload
-- [Sklearn Tabular Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02%20How%20to%20upload%20a%20simple%20sklearn%20regression%20model.ipynb)
-- [Tensorflow Tabular Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/07%20Detailed%20tutorial%20-%20Tabular%20data%20with%20IG%20enabled.ipynb)
-- [Tensorflow Text Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/08%20How%20to%20upload%20a%20tf%20model%20using%20text%20data%20with%20IG%20enabled.ipynb)
-- [PyTorch Text Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/10%20Detailed%20tutorial%20-%20Tabular%20data%20with%20IG%20-%20PyTorch.ipynb)
-- [Model Upload Using Containers](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/upload-model-containers.ipynb)
-- [Debug Model Upload Issues](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/03%20How%20to%20debug%20model%20upload.ipynb)
+- [Sklearn Tabular Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02a%20Sklearn%20Tabular%20Model.ipynb)
+- [Tensorflow Tabular Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02b%20Tensorflow%20Tabular%20Model.ipynb)
+- [Tensorflow Text Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02c%20Tensorflow%20Text%20Model.ipynb)
+- [PyTorch Text Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02d%20PyTorch%20Text%20Model.ipynb)
+- [Model Upload Using Containers](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02e%20Model%20Upload%20Using%20Containers.ipynb)
+- [Debug Model Upload Issues](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02f%20Debug%20Model%20Upload%20Issues.ipynb)
 
    
 <a name="license"></a>
