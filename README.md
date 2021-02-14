@@ -57,7 +57,7 @@ This package contains tutorials, samples, and documentation for using Fiddler.
 - [Sklearn Tabular Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02a%20Sklearn%20Tabular%20Model.ipynb)
 - [Tensorflow Tabular Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02b%20Tensorflow%20Tabular%20Model.ipynb)
 - [Tensorflow Text Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02c%20Tensorflow%20Text%20Model.ipynb)
-- [PyTorch Text Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02d%20PyTorch%20Text%20Model.ipynb)
+- [PyTorch Tabular Model](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02d%20PyTorch%20Tabular%20Model.ipynb)
 - [Model Upload Using Containers](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02e%20Model%20Upload%20Using%20Containers.ipynb)
 - [Debug Model Upload Issues](https://github.com/fiddler-labs/fiddler-samples/blob/master/content_root/tutorial/02f%20Debug%20Model%20Upload%20Issues.ipynb)
 
