@@ -1,63 +1,92 @@
 #!/usr/bin/env python3
 
-import fiddler.fiddler_api as fdl
+#
+# Script for deploy bundled samples to a cluster
+#
+# Usage: ./deploy --endpoint='https://xxx.fiddler.ai --token=xyx --org=myorg
+#
+
+import getopt
 import logging
+import sys
 from pathlib import Path
 
+from register_models import register
 
-FIDDLER_ENDPOINT = 'http://localhost:4100'
-FIDDLER_TOKEN = ''
-ORG_ID = 'onebox'
-CLEAN = False
+from fiddler import fiddler_api as fdl
+
+options, _ = getopt.getopt(sys.argv[1:], '', ['endpoint=', 'token=', 'org='])
+options = dict(options)
+
+FIDDLER_ENDPOINT = options.get('--endpoint', 'http://localhost:6100')
+FIDDLER_TOKEN = options.get('--token', '')
+ORG_ID = options.get('--org', 'onebox')
 
 logging.basicConfig(level=logging.INFO)
-
-logging.info('Deploying to fiddler')
+logging.info(f'Deploying to {ORG_ID}')
 api = fdl.FiddlerApi(FIDDLER_ENDPOINT, ORG_ID, FIDDLER_TOKEN)
 logging.info(f'Connected to fiddler at: {FIDDLER_ENDPOINT}')
 
+api.strict_mode = False
 
-datasets = [
-    '20news',
-    'bank_churn',
-    'heart_disease',
-    'imdb_rnn',
-    'iris',
-    'p2p_loans',
-    'titanic',
-    'winequality',
-]
-
-models = {
-    'bank_churn': ['bank_churn'],
-    'heart_disease': ['heart_disease'],
-    'imdb_rnn': ['imdb_rnn', 'imdb_rnn_test'],
-    'iris_classification': ['iris'],
-    'lending': ['logreg-all', 'logreg-simple', 'xgboost-simple-sagemaker'],
-    'newsgroup': ['classifier'],
-    'titanic': ['sklearn_pipeline'],
-    'wine_quality': ['linear_model_wine_regressor', 'dnn_wine_regressor'],
+projects = {
+    'bank_churn': {'models': ['bank_churn'], 'datasets': ['bank_churn']},
+    'heart_disease': {'models': ['heart_disease'], 'datasets': ['heart_disease']},
+    'imdb_rnn': {'models': ['imdb_rnn', 'imdb_rnn_test'], 'datasets': ['imdb_rnn']},
+    'iris_classification': {'models': ['iris'], 'datasets': ['iris']},
+    'lending': {
+        'models': ['logreg-all', 'logreg-simple', 'xgboost-simple-sagemaker'],
+        'datasets': ['p2p_loans'],
+    },
+    'newsgroup_text_topics': {
+        'models': ['christianity_atheism_classifier'],
+        'datasets': ['20news'],
+    },
+    'wine_quality': {
+        'models': ['linear_model_wine_regressor', 'dnn_wine_regressor'],
+        'datasets': ['winequality'],
+    },
 }
 
-if CLEAN:
-    for dataset in datasets:
-        logging.info(f'Deleting dataset {dataset}')
-        api.delete_dataset(dataset)
-    for project, model in models.items():
-        logging.info(f'Deleting project {project}')
-        api.delete_project(project)
+model_to_dataset = {
+    'linear_model_wine_regressor': 'winequality',
+    'dnn_wine_regressor': 'winequality',
+    'christianity_atheism_classifier': '20news',
+    'logreg-all': 'p2p_loans',
+    'logreg-simple': 'p2p_loans',
+    'xgboost-simple-sagemaker': 'p2p_loans',
+    'iris_classification': 'iris',
+    'heart_disease': 'heart_disease',
+    'bank_churn': 'bank_churn',
+}
 
-for dataset in datasets:
-    logging.info(f'uploading dataset {dataset}')
-    api.upload_dataset_from_dir(dataset, Path('datasets') / dataset)
+available_projects = api.list_projects()
 
-logging.info(f'current_datasets = {api.list_datasets()}')
+for project_name, project in projects.items():
+    if project_name not in available_projects:
+        logging.info(f'Create project: {project_name}')
+        api.create_project(project_name)
+    for dataset in project['datasets']:
+        logging.info(f'Uploading dataset {dataset}')
+        api.delete_dataset(project_name, dataset)
+        api.upload_dataset_from_dir(project_name, dataset, Path('datasets') / dataset)
+    for model in project['models']:
+        logging.info(f'Uploading model {model}')
+        api.delete_model(project_name, model)
+        api.upload_model_package(Path(project_name) / model, project_name, model)
 
-for project, models in models.items():
-    logging.info(f'create project: {project}')
-    api.create_project(project)
-    for model in models:
-        logging.info(f'uploading model {model}')
-        api.upload_model_package(Path(project) / model, project, model)
+logging.info('Registering models')
+register(api)
+
+for project_name, project in projects.items():
+    for model in project['models']:
+        if model in model_to_dataset.keys():
+            logging.info(f'Triggering predictions for model {model}')
+            api.trigger_model_predictions(
+                project_id=project_name,
+                model_id=model,
+                dataset_id=model_to_dataset[model],
+            )
+
 
 logging.info('Done')
